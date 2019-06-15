@@ -1,0 +1,228 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservice for Files Organization
+  description: Golang + Postgres
+  license:
+    name: Software Architecture, 2019-I
+host: 192.168.99.101:8000
+basePath: /organization-ms
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /folder:
+    post:
+      summary: Creates a new folder
+      operationId: createFolder
+      parameters:
+        - name: route
+          in: body
+          required: true
+          description: path where the folder will be created
+          schema:
+            $ref: '#/definitions/createFolder_input'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    put:
+      summary: Moves a folder to another path
+      operationId: moveFolder
+      parameters:
+        - name: routes
+          in: body
+          required: true
+          description: origin and destination routes
+          schema:
+            $ref: '#/definitions/moveFolder_input'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    delete:
+      summary: deletes specified folder
+      operationId: deleteFolder
+      parameters:
+        - name: folder
+          in: body
+          required: true
+          description: path of the folder
+          schema:
+            $ref: '#/definitions/createFolder_input'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /logs/create:
+    get:
+      summary: Returns the logs of the creation of folders
+      operationId: logCreate
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/logCreate'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /logs/move:
+    get:
+      summary: Returns the logs of the movements of folders
+      operationId: logMove
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/logMove'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /logs/delete:
+    get:
+      summary: Returns the logs of the deletions of folders
+      operationId: logDelete
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/logDelete'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+definitions:
+
+
+  createFolder_input:
+    type: object
+    properties:
+      route:
+        type: string
+        
+  moveFolder_input:
+    type: object
+    properties:
+      oigin:
+        type: string
+      destiny:
+        type: string
+        
+  logCreate:
+    type: object
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/logCreateRow'
+  logDelete:
+    type: object
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/logDeleteRow'
+  logMove:
+    type: object
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/logMoveRow'
+  
+  logCreateRow:
+    type: object
+    properties:
+      createid:
+        type: integer
+      route:
+        type: string
+      date:
+        type: string
+        
+  logDeleteRow:
+    type: object
+    properties:
+      delid:
+        type: integer
+      route:
+        type: string
+      date:
+        type: string
+        
+  logMoveRow:
+    type: object
+    properties:
+      moveid:
+        type: integer
+      origin:
+        type: string
+      destiny:
+        type: string
+      date:
+        type: string
+  
+  
+
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+    properties:
+      message:
+        type: string
