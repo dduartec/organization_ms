@@ -34,6 +34,7 @@ type error_struct struct {
 
 //Move test
 func Move(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Move")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 	decoder := json.NewDecoder(r.Body)
@@ -80,6 +81,7 @@ func LogMove(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateFolder(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Create")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusCreated)
 	decoder := json.NewDecoder(r.Body)
@@ -133,6 +135,7 @@ func LogCreateFolder(w http.ResponseWriter, r *http.Request) {
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Delete")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 	decoder := json.NewDecoder(r.Body)
