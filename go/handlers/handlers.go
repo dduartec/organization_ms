@@ -47,7 +47,7 @@ func Move(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic(err)
 	}
-	aux, err := url.Parse("http://192.168.99.101:2870/move?source=" + t.Origin + "&target=" + t.Destiny)
+	aux, err := url.Parse("http://file-controller-ms:2870/move?source=" + t.Origin + "&target=" + t.Destiny)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -96,7 +96,7 @@ func CreateFolder(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Panic(err)
 		}
-		aux, err := url.Parse("http://192.168.99.101:2870/createFolder?path=" + t.Path)
+		aux, err := url.Parse("http://file-controller-ms:2870/createFolder?path=" + t.Path)
 		if err != nil {
 			log.Panic(err)
 		}
@@ -150,7 +150,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Panic(err)
 		}
-		aux, err := url.Parse("http://192.168.99.101:2870/delete?path=" + t.Path)
+		aux, err := url.Parse("http://file-controller-ms:2870/delete?path=" + t.Path)
 		if err != nil {
 			log.Panic(err)
 		}
